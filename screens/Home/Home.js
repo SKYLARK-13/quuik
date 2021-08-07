@@ -46,31 +46,41 @@ const Home = props => {
               />
             </View>
           </View>
-          <AddCard />
-
-          <View style={styles.scrollContainer}>
+          <View style={styles.middleScreen}>
             <ScrollView
-              // contentContainerStyle={{flexGrow: 1}}
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
-              style={styles.container}>
-              <FoodCard />
-              <FoodCard />
-              <FoodCard />
-              <FoodCard />
-              <FoodCard />
+              style={styles.scroll}
+              contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+              <AddCard />
+
+              <View style={styles.scrollContainer}>
+                <ScrollView
+                  // contentContainerStyle={{flexGrow: 1}}
+                  showsHorizontalScrollIndicator={false}
+                  horizontal={true}
+                  style={styles.container}>
+                  <FoodCard />
+                  <FoodCard />
+                  <FoodCard />
+                  <FoodCard />
+                  <FoodCard />
+                </ScrollView>
+              </View>
+              <View style={styles.filtersContainer}>
+                <Filters title="Filter" />
+                <Filters title="Ratings: 4.0+" />
+                <Filters title="Rating" />
+                <Filters title="Cost" />
+              </View>
+              <View style={styles.cafeCardContainer}>
+                <CafeCard />
+                <CafeCard />
+                <CafeCard />
+                <CafeCard />
+                <CafeCard />
+                <CafeCard />
+                <CafeCard />
+              </View>
             </ScrollView>
-          </View>
-          <View style={styles.filtersContainer}>
-            <Filters title="Filter" />
-            <Filters title="Ratings: 4.0+" />
-            <Filters title="Rating" />
-            <Filters title="Cost" />
-          </View>
-          <View style={styles.cafeCardContainer}>
-            <CafeCard />
-            <CafeCard />
-            <CafeCard />
           </View>
         </ImageBackground>
       </View>

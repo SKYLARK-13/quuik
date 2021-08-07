@@ -1,9 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, ImageBackground, Image} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+  Image,
+} from 'react-native';
 import {styles} from './FoodCard.style';
 const FoodCard = () => {
   return (
-    <View style={styles.cardCoverContainer}>
+    <TouchableOpacity activeOpacity={0.8} style={styles.cardCoverContainer}>
       <ImageBackground
         style={styles.cardCover}
         imageStyle={{borderRadius: 8, opacity: 0.6}}
@@ -35,7 +41,7 @@ const FoodCard = () => {
           </View>
         </View>
       </ImageBackground>
-    </View>
+    </TouchableOpacity>
   );
 };
 

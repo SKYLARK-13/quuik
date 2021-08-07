@@ -46,6 +46,15 @@ const styles = StyleSheet.create({
   search: {
     fontSize: 14,
   },
+  middleScreen: {
+    width: '100%',
+
+    flex: 1,
+  },
+  scroll: {
+    width: '100%',
+    height: '100%',
+  },
   scrollContainer: {
     width: '100%',
     height: '25%',
@@ -58,7 +67,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '4%',
     paddingHorizontal: 10,
-
+    marginVertical: 5,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -66,8 +75,8 @@ const styles = StyleSheet.create({
   cafeCardContainer: {
     width: '100%',
     height: 400,
-
-    padding: 10,
+    // padding: 10,
+    paddingHorizontal: 10,
   },
 });
 
