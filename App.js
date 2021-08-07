@@ -1,17 +1,18 @@
 import React from 'react';
 import type {Node} from 'react';
-import MainNavigator from './navigation/MainNavigator';
-import AuthLogin from './screens/Auth/AuthLogin';
-import AuthSignup from './screens/Auth/AuthSignup';
-import store from './store/store';
+import SwitchNavigator from './navigation/MainNavigator';
 import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import rootReducer from './store/reducers';
 
-store.subscribe(() => console.log(store.getState()));
+const middleware = applyMiddleware(thunkMiddleware);
+const store = createStore(rootReducer, middleware);
 
 const App: () => Node = () => {
   return (
     <Provider store={store}>
-      <MainNavigator />
+      <SwitchNavigator />
     </Provider>
   );
 };

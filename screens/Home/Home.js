@@ -1,56 +1,87 @@
 import React from 'react';
 import {
-  StyleSheet,
   View,
   Keyboard,
   Image,
-  Text,
   TouchableWithoutFeedback,
   TextInput,
+  ImageBackground,
+  ScrollView,
 } from 'react-native';
+import {connect} from 'react-redux';
+import Firebase from '../../config/Firebase';
+import {Icon} from 'react-native-elements';
+import AddCard from '../../components/AddCard/AddCard';
+import FoodCard from '../../components/FoodCard/FoodCard';
+import Filters from '../../components/Filters/Filters';
+import CafeCard from '../../components/CafeCard/CafeCard';
+import {styles} from './Home.style';
+const Home = props => {
+  // const handleSignout = () => {
+  //   Firebase.auth().signOut();
+  //   props.navigation.navigate('Login');
+  // };
 
-const Home = () => {
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <TouchableWithoutFeedback
+      style={styles.main}
+      onPress={Keyboard.dismiss}
+      accessible={false}>
       <View style={styles.screen}>
-        <View style={styles.homeHeader}>
-          <Image
-            source={require('../../images/menu.png')}
-            style={styles.menuIcon}
-          />
-          <TextInput
-            style={styles.search}
-            placeholder="Search for restaurants, cuisines.."
-            placeholderTextColor="white"
-          />
-        </View>
+        <ImageBackground
+          style={styles.imageBackground}
+          source={require('../../images/homeback.png')}>
+          <View style={styles.homeHeader}>
+            <Image
+              source={require('../../images/menu.png')}
+              style={styles.menuIcon}
+            />
+            <View style={styles.searchContainer}>
+              <Icon name="search" color="white" />
+              <TextInput
+                style={styles.search}
+                placeholder="Search for restaurants, cuisines.."
+                placeholderTextColor="white"
+                color="white"
+              />
+            </View>
+          </View>
+          <AddCard />
+
+          <View style={styles.scrollContainer}>
+            <ScrollView
+              // contentContainerStyle={{flexGrow: 1}}
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              style={styles.container}>
+              <FoodCard />
+              <FoodCard />
+              <FoodCard />
+              <FoodCard />
+              <FoodCard />
+            </ScrollView>
+          </View>
+          <View style={styles.filtersContainer}>
+            <Filters title="Filter" />
+            <Filters title="Ratings: 4.0+" />
+            <Filters title="Rating" />
+            <Filters title="Cost" />
+          </View>
+          <View style={styles.cafeCardContainer}>
+            <CafeCard />
+            <CafeCard />
+            <CafeCard />
+          </View>
+        </ImageBackground>
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'red',
-  },
-  homeHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  menuIcon: {
-    height: 25,
-    width: 25,
-  },
-  search: {
-    backgroundColor: '#737373',
-    padding: 10,
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  };
+};
 
-    height: 30,
-    borderRadius: 20,
-  },
-});
-
-export default Home;
+export default connect(mapStateToProps)(Home);

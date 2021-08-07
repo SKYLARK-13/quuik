@@ -16,25 +16,32 @@ import MyButton from '../../components/MyButton';
 import {styles} from './AuthLogin.style';
 import MyButtonInvert from '../../components/MyButtonInvert';
 import {Icon} from 'react-native-elements';
-import {login} from '../../store/actions';
-import {useDispatch} from 'react-redux';
+import Firebase from '../../config/Firebase';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {
+  updateEmail,
+  updatePassword,
+  login,
+  getUser,
+} from '../../store/actions/user';
 const AuthLogin = props => {
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
   const [checked, setChecked] = useState(false);
 
-  const handleEmailInput = email => {
-    setEmail(email);
-    console.log(email);
+  componentDidMount = () => {
+    Firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        props.getUser(user.uid);
+        if (props.user != null) {
+          props.navigation.navigate('Home');
+        }
+      }
+    });
   };
 
-  const handlePasswordInput = password => {
-    setPassword(password);
-  };
+  const handleLogin = () => {
+    props.login();
 
-  const loginUser = async () => {
-    await dispatch(login(email, password));
     props.navigation.navigate('Home');
   };
 
@@ -56,32 +63,31 @@ const AuthLogin = props => {
             <TextInput
               placeholder="Email"
               placeholderTextColor="red"
-              value={email}
-              onChangeText={handleEmailInput}
+              value={props.user.email}
+              autoCapitalize="none"
+              onChangeText={email => props.updateEmail(email)}
             />
           </View>
           <View style={styles.input}>
             <Icon name="lock" color="red" />
             <TextInput
+              value={props.user.password}
+              onChangeText={password => props.updatePassword(password)}
               placeholder="Password"
               secureTextEntry={true}
-              value={password}
-              onChangeText={handlePasswordInput}
               placeholderTextColor="red"
             />
           </View>
           <View style={styles.remember}>
             <Checkbox
               status={checked ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked(!checked);
-              }}
+              onPress={() => {}}
               color="red"
             />
             <Text style={styles.remText}>Remember me</Text>
           </View>
         </View>
-        <TouchableOpacity onPress={loginUser} style={styles.signButton}>
+        <TouchableOpacity onPress={handleLogin} style={styles.signButton}>
           <MyButton title="Sign In" />
         </TouchableOpacity>
         <View style={styles.imageContainer}>
@@ -98,9 +104,7 @@ const AuthLogin = props => {
 
         <TouchableOpacity
           style={styles.signButton}
-          onPress={() => {
-            props.navigation.navigate('AuthSignup');
-          }}>
+          onPress={() => props.navigation.navigate('Signup')}>
           <MyButtonInvert title="Sign Up" />
         </TouchableOpacity>
       </ImageBackground>
@@ -108,4 +112,17 @@ const AuthLogin = props => {
   );
 };
 
-export default AuthLogin;
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {updateEmail, updatePassword, login, getUser},
+    dispatch,
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthLogin);

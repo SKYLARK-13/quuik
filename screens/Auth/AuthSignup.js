@@ -13,26 +13,26 @@ import {
 
 import MyButton from '../../components/MyButton';
 import {styles} from './AuthSignup.style';
-import {signup} from '../../store/actions/index';
-import {useDispatch} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {updateEmail, updatePassword, signup} from '../../store/actions/user';
 
 const AuthSignup = props => {
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  // const [name, setName] = useState();
+  // const [email, setEmail] = useState();
+  // const [password, setPassword] = useState();
 
-  const handleEmailInput = email => {
-    setEmail(email);
-    console.log(email);
-  };
+  // const handleEmailInput = email => {
+  //   setEmail(email);
+  //   console.log(email);
+  // };
+  // const handlePasswordInput = password => {
+  //   setPassword(password);
+  // };
 
-  const handlePasswordInput = password => {
-    setPassword(password);
-  };
-
-  const addUser = async () => {
-    await dispatch(signup(email, password));
-    props.navigation.navigate('AuthLogin');
+  const handleSignUp = () => {
+    props.signup();
+    props.navigation.navigate('Home');
   };
 
   return (
@@ -44,6 +44,16 @@ const AuthSignup = props => {
         <ImageBackground
           source={require('../../images/login.png')}
           style={styles.background}>
+          <TouchableOpacity
+            style={styles.backContainer}
+            onPress={() => {
+              props.navigation.goBack();
+            }}>
+            <Image
+              style={styles.back}
+              source={require('../../images/back.png')}
+            />
+          </TouchableOpacity>
           <View style={styles.logoContainer}>
             <Image
               source={require('../../images/logo.png')}
@@ -53,13 +63,19 @@ const AuthSignup = props => {
           <ScrollView style={{width: '100%', flex: 1}}>
             <View style={styles.inputContainer}>
               <View style={styles.input}>
-                <TextInput placeholder="FULL NAME" placeholderTextColor="red" />
+                <TextInput
+                  placeholder="FULL NAME"
+                  placeholderTextColor="red"
+                  // value={this.state.name}
+                  // onChangeText={name => this.setState({name})}
+                />
               </View>
               <View style={styles.input}>
                 <TextInput
+                  value={props.user.email}
+                  onChangeText={email => props.updateEmail(email)}
                   placeholder="EMAIL"
-                  value={email}
-                  onChangeText={handleEmailInput}
+                  autoCapitalize="none"
                   placeholderTextColor="red"
                 />
               </View>
@@ -71,9 +87,9 @@ const AuthSignup = props => {
               </View>
               <View style={styles.input}>
                 <TextInput
+                  value={props.user.password}
+                  onChangeText={password => props.updatePassword(password)}
                   placeholder="PASSWORD"
-                  value={password}
-                  onChangeText={handlePasswordInput}
                   secureTextEntry={true}
                   placeholderTextColor="red"
                 />
@@ -86,7 +102,7 @@ const AuthSignup = props => {
               </View>
             </View>
           </ScrollView>
-          <TouchableOpacity onPress={addUser}>
+          <TouchableOpacity onPress={handleSignUp}>
             <View style={styles.signButton}>
               <MyButton title="Confirm" />
             </View>
@@ -101,4 +117,14 @@ const AuthSignup = props => {
   );
 };
 
-export default AuthSignup;
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({updateEmail, updatePassword, signup}, dispatch);
+};
+
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthSignup);

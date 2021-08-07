@@ -3,7 +3,6 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-
     // width: Theme.getScreenWidth,
     // height: Theme.getScreenHeight + 50,
     width: '100%',
@@ -20,10 +19,19 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  backContainer: {
+    width: '10%',
+    marginTop: 30,
+    marginLeft: 30,
+  },
+  back: {
+    height: 20,
+    width: 20,
+  },
   logoContainer: {
     height: 200,
     padding: 5,
-    marginTop: 40,
+    marginTop: 30,
 
     justifyContent: 'center',
     alignItems: 'center',
@@ -56,6 +64,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     width: '100%',
     paddingHorizontal: 20,
+
     flexDirection: 'row',
     alignItems: 'center',
 
